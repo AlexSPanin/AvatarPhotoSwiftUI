@@ -22,8 +22,9 @@ struct AvatarPhotoView: View {
     }
 }
 
-struct AvatarPhotoView_Previews: PreviewProvider {
-    static var previews: some View {
-        AvatarPhotoView()
-    }
-}
+//
+//struct AvatarPhotoView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        AvatarPhotoView()
+//    }
+//}
