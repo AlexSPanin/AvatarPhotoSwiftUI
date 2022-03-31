@@ -19,6 +19,8 @@
 		E22D38E427F5A2FB009EB3EF /* AvatarPhotoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22D38E327F5A2FB009EB3EF /* AvatarPhotoViewModel.swift */; };
 		E22D38E627F5B3DF009EB3EF /* AvatarPhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22D38E527F5B3DE009EB3EF /* AvatarPhotoView.swift */; };
 		E22D38E827F5B94D009EB3EF /* ScrollPhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22D38E727F5B94D009EB3EF /* ScrollPhotoView.swift */; };
+		E22D38EA27F5C5F9009EB3EF /* ImagePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22D38E927F5C5F9009EB3EF /* ImagePickerView.swift */; };
+		E22D38EC27F5C6A7009EB3EF /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22D38EB27F5C6A7009EB3EF /* Coordinator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +37,9 @@
 		E22D38E327F5A2FB009EB3EF /* AvatarPhotoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarPhotoViewModel.swift; sourceTree = "<group>"; };
 		E22D38E527F5B3DE009EB3EF /* AvatarPhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarPhotoView.swift; sourceTree = "<group>"; };
 		E22D38E727F5B94D009EB3EF /* ScrollPhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollPhotoView.swift; sourceTree = "<group>"; };
+		E22D38E927F5C5F9009EB3EF /* ImagePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerView.swift; sourceTree = "<group>"; };
+		E22D38EB27F5C6A7009EB3EF /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
+		E22D38ED27F5CE82009EB3EF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,6 +72,7 @@
 		E22D38C627F59B90009EB3EF /* AvatarPhotoSwiftUI */ = {
 			isa = PBXGroup;
 			children = (
+				E22D38ED27F5CE82009EB3EF /* Info.plist */,
 				E22D38C727F59B90009EB3EF /* AvatarPhotoSwiftUIApp.swift */,
 				E22D38C927F59B90009EB3EF /* ContentView.swift */,
 				E22D38D627F59BF0009EB3EF /* Views */,
@@ -119,6 +125,8 @@
 			isa = PBXGroup;
 			children = (
 				E22D38DB27F59E7B009EB3EF /* ButtonsPhotoDataManager.swift */,
+				E22D38E927F5C5F9009EB3EF /* ImagePickerView.swift */,
+				E22D38EB27F5C6A7009EB3EF /* Coordinator.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -196,10 +204,12 @@
 				E22D38E627F5B3DF009EB3EF /* AvatarPhotoView.swift in Sources */,
 				E22D38DE27F5A0E5009EB3EF /* ExtensionView.swift in Sources */,
 				E22D38CA27F59B90009EB3EF /* ContentView.swift in Sources */,
+				E22D38EA27F5C5F9009EB3EF /* ImagePickerView.swift in Sources */,
 				E22D38E427F5A2FB009EB3EF /* AvatarPhotoViewModel.swift in Sources */,
 				E22D38E827F5B94D009EB3EF /* ScrollPhotoView.swift in Sources */,
 				E22D38DA27F59D3B009EB3EF /* ButtonsPhotoModel.swift in Sources */,
 				E22D38DC27F59E7B009EB3EF /* ButtonsPhotoDataManager.swift in Sources */,
+				E22D38EC27F5C6A7009EB3EF /* Coordinator.swift in Sources */,
 				E22D38E227F5A2A2009EB3EF /* LowerButtonsPhotoView.swift in Sources */,
 				E22D38E027F5A28C009EB3EF /* UpperButtonsPhotoView.swift in Sources */,
 				E22D38C827F59B90009EB3EF /* AvatarPhotoSwiftUIApp.swift in Sources */,
@@ -334,6 +344,8 @@
 				DEVELOPMENT_TEAM = QD5349NP78;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = AvatarPhotoSwiftUI/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "\"Доступ к камере\"";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -363,6 +375,8 @@
 				DEVELOPMENT_TEAM = QD5349NP78;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = AvatarPhotoSwiftUI/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "\"Доступ к камере\"";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

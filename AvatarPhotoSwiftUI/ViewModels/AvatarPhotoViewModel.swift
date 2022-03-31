@@ -5,8 +5,12 @@
 //  Created by Александр Панин on 31.03.2022.
 //
 
-import Foundation
-import UIKit
+import SwiftUI
+
+enum TypeSource {
+    case camera
+    case gallary
+}
 
 class AvatarPhotoViewModel: ObservableObject {
     
@@ -14,18 +18,26 @@ class AvatarPhotoViewModel: ObservableObject {
     let lowerButtons = ButtonsPhotoDataManager.getLowerButtonsPhoto()
     
     var typePressButton: ButtonsPhoto = .getLibrary
-    var photo = UIImage(systemName: "person.fill")
-    
-    init() {
-        
+    {
+        didSet
+        {
+            pressedButtonsPhoto()
+        }
     }
+    @Published  var sourceType: UIImagePickerController.SourceType = .photoLibrary
+    @Published  var isImagePickerDisplay: Bool = false
     
+    init() {}
+    
+  
     func pressedButtonsPhoto() {
         switch typePressButton {
         case .getLibrary:
-            getPhotoLibrary()
+            self.sourceType = .photoLibrary
+            self.isImagePickerDisplay.toggle()
         case .getCamera:
-            getPhotoCamera()
+            self.sourceType = .camera
+            self.isImagePickerDisplay.toggle()
         case .sharePhoto:
             sharePhoto()
         case .rotatedRigth:
@@ -33,14 +45,6 @@ class AvatarPhotoViewModel: ObservableObject {
         case .rotatedLeft:
             rotatedLeft()
         }
-    }
-    
-    func getPhotoLibrary() {
-        
-    }
-    
-    func getPhotoCamera() {
-        
     }
     
     func sharePhoto() {
