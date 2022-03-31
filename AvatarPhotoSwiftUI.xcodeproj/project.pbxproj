@@ -53,6 +53,10 @@
 			children = (
 				E22D38C727F59B90009EB3EF /* AvatarPhotoSwiftUIApp.swift */,
 				E22D38C927F59B90009EB3EF /* ContentView.swift */,
+				E22D38D727F59BFA009EB3EF /* ViewModels */,
+				E22D38D627F59BF0009EB3EF /* Views */,
+				E22D38D527F59BE6009EB3EF /* Models */,
+				E22D38D827F59C58009EB3EF /* Services */,
 				E22D38CB27F59B91009EB3EF /* Assets.xcassets */,
 				E22D38CD27F59B91009EB3EF /* Preview Content */,
 			);
@@ -65,6 +69,34 @@
 				E22D38CE27F59B91009EB3EF /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		E22D38D527F59BE6009EB3EF /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		E22D38D627F59BF0009EB3EF /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		E22D38D727F59BFA009EB3EF /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		E22D38D827F59C58009EB3EF /* Services */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
