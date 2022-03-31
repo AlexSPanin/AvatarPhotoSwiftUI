@@ -9,13 +9,20 @@ import Foundation
 
 struct ButtonsPhotoDataManager {
     
-    static func getButtonsPhoto() -> [ButtonsPhotoModel] {
+    static func getUpperButtonsPhoto() -> [ButtonsPhotoModel] {
       [
         ButtonsPhotoModel(type: .getLibrary, nameImage: "photo"),
-        ButtonsPhotoModel(type: .getCamera, nameImage: "camera"),
-        ButtonsPhotoModel(type: .sharePhoto, nameImage: "square.and.arrow.up"),
-        ButtonsPhotoModel(type: .rotatedRigth, nameImage: "rotate.right"),
-        ButtonsPhotoModel(type: .rotatedLeft, nameImage: "rotate.left"),
+        ButtonsPhotoModel(type: .getCamera, nameImage: "camera")
       ]
     }
+    
+    static func getLowerButtonsPhoto() -> [ButtonsPhotoModel] {
+      [
+        ButtonsPhotoModel(type: .rotatedLeft, nameImage: "rotate.left"),
+        ButtonsPhotoModel(type: .sharePhoto, nameImage: "square.and.arrow.up"),
+        ButtonsPhotoModel(type: .rotatedRigth, nameImage: "rotate.right")
+       
+      ]
+    }
+    private init() {}
 }

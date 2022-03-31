@@ -11,7 +11,7 @@ enum ButtonsPhoto: Int {
     case getLibrary, getCamera, sharePhoto, rotatedRigth, rotatedLeft
 }
 
-struct ButtonsPhotoModel {
+struct ButtonsPhotoModel: Hashable {
     var type: ButtonsPhoto
     var nameImage: String
 }
