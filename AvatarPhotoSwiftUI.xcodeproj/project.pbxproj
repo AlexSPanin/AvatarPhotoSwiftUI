@@ -11,6 +11,8 @@
 		E22D38CA27F59B90009EB3EF /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22D38C927F59B90009EB3EF /* ContentView.swift */; };
 		E22D38CC27F59B91009EB3EF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E22D38CB27F59B91009EB3EF /* Assets.xcassets */; };
 		E22D38CF27F59B91009EB3EF /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E22D38CE27F59B91009EB3EF /* Preview Assets.xcassets */; };
+		E22D38DA27F59D3B009EB3EF /* ButtonsPhotoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22D38D927F59D3B009EB3EF /* ButtonsPhotoModel.swift */; };
+		E22D38DC27F59E7B009EB3EF /* ButtonsPhotoDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22D38DB27F59E7B009EB3EF /* ButtonsPhotoDataManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +21,8 @@
 		E22D38C927F59B90009EB3EF /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		E22D38CB27F59B91009EB3EF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E22D38CE27F59B91009EB3EF /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		E22D38D927F59D3B009EB3EF /* ButtonsPhotoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonsPhotoModel.swift; sourceTree = "<group>"; };
+		E22D38DB27F59E7B009EB3EF /* ButtonsPhotoDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonsPhotoDataManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +78,7 @@
 		E22D38D527F59BE6009EB3EF /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				E22D38D927F59D3B009EB3EF /* ButtonsPhotoModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -95,6 +100,7 @@
 		E22D38D827F59C58009EB3EF /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				E22D38DB27F59E7B009EB3EF /* ButtonsPhotoDataManager.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -170,6 +176,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				E22D38CA27F59B90009EB3EF /* ContentView.swift in Sources */,
+				E22D38DA27F59D3B009EB3EF /* ButtonsPhotoModel.swift in Sources */,
+				E22D38DC27F59E7B009EB3EF /* ButtonsPhotoDataManager.swift in Sources */,
 				E22D38C827F59B90009EB3EF /* AvatarPhotoSwiftUIApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
