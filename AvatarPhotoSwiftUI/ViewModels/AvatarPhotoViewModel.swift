@@ -6,36 +6,18 @@
 //
 import SwiftUI
 
-enum TypeSource {
-    case camera
-    case gallary
-}
-
 class AvatarPhotoViewModel: ObservableObject {
     
     let upperButtons = ButtonsPhotoDataManager.getUpperButtonsPhoto()
     let lowerButtons = ButtonsPhotoDataManager.getLowerButtonsPhoto()
     
     var typePressButton: ButtonsPhoto = .getLibrary
-    {
-        didSet
-        {
-            pressedButtonsPhoto()
-        }
-    }
+    { didSet { pressedButtonsPhoto() } }
     
     var isChange: Bool = false
     
     @Published var photo: UIImage = UIImage(systemName: "person.fill.questionmark") ?? UIImage()
-    {
-        didSet
-        {
-            if isChange {
-                imageFilter()
-            }
-        }
-    }
-    
+    { didSet { if isChange { imageFilter() } } }
     
     @Published var sourceType: UIImagePickerController.SourceType = .photoLibrary
     @Published var isImagePickerDisplay: Bool = false
@@ -84,9 +66,7 @@ class AvatarPhotoViewModel: ObservableObject {
             if let cgImage = context.createCGImage(output, from: output.extent) {
                 isChange.toggle()
                 photo = UIImage(cgImage: cgImage)
-                
             }
         }
     }
-    
 }

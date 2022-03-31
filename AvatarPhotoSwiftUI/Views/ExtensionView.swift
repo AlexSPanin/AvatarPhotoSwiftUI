@@ -27,9 +27,8 @@ extension Color {
     
     static let sh_colorFrame = Color(#colorLiteral(red: 0.937254902, green: 0.9333333333, blue: 0.9333333333, alpha: 0.4492752378))
     
-
         }
-// MARK: - расширение для UIImage с функцией поворота
+// MARK: - расширение для UIImage функция поворота
 extension UIImage {
     func rotate(radians: CGFloat) -> UIImage {
         let rotatedSize = CGRect(origin: .zero, size: size)
