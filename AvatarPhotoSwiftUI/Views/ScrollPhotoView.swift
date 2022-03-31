@@ -18,9 +18,9 @@ struct ScrollPhotoView: View {
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 200, height: 300, alignment: .center)
-                .clipShape(RoundedRectangle(cornerRadius: 5))
+                .clipShape(RoundedRectangle(cornerRadius: 10))
                 .overlay {
-                    RoundedRectangle(cornerRadius: 5).stroke(Color.customRed, lineWidth: 3)
+                    RoundedRectangle(cornerRadius: 10).stroke(Color.customRed, lineWidth: 3)
                 }
                 .shadow(color: .sh_darkGrey, radius: 0, x: 0, y: 1)
         }
@@ -36,7 +36,6 @@ extension ScrollPhotoView {
         guard let image = selectedImage else { return }
         viewModel.isChange.toggle()
         viewModel.photo = image
-        
     }
 }
 

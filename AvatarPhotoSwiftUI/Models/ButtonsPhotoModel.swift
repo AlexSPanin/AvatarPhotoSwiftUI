@@ -8,7 +8,7 @@
 import Foundation
 
 enum ButtonsPhoto: Int {
-    case getLibrary, getCamera, sharePhoto, rotatedRigth, rotatedLeft
+    case getLibrary, getCamera, savePhoto, rotatedRigth, rotatedLeft
 }
 
 struct ButtonsPhotoModel: Hashable {

@@ -40,9 +40,15 @@ class AvatarPhotoViewModel: ObservableObject {
     @Published var sourceType: UIImagePickerController.SourceType = .photoLibrary
     @Published var isImagePickerDisplay: Bool = false
     
-    init() {}
+    init() {
+        fethPhoto()
+    }
     
-  
+    func fethPhoto() {
+        let dataImage = StorageManager.shared.fetchData()
+        if let photo = UIImage(data: dataImage, scale: 1.0) { self.photo = photo }
+    }
+    
     func pressedButtonsPhoto() {
         switch typePressButton {
         case .getLibrary:
@@ -51,27 +57,20 @@ class AvatarPhotoViewModel: ObservableObject {
         case .getCamera:
             self.sourceType = .camera
             self.isImagePickerDisplay.toggle()
-        case .sharePhoto:
-            sharePhoto()
+        case .savePhoto:
+            savePhoto()
         case .rotatedRigth:
-            rotatedRigth()
+            let rotatedImage = photo.rotate(radians: .pi * 0.5)
+            photo = rotatedImage
         case .rotatedLeft:
-            rotatedLeft()
+            let rotatedImage = photo.rotate(radians: .pi * 1.5)
+            photo = rotatedImage
         }
     }
     
-    func sharePhoto() {
-        
-    }
-    
-    func rotatedRigth() {
-        let rotatedImage = photo.rotate(radians: .pi * 0.5)
-        return photo = rotatedImage
-    }
-    
-    func rotatedLeft() {
-        let rotatedImage = photo.rotate(radians: .pi * 1.5)
-        return photo = rotatedImage
+    func savePhoto() {
+        if let dataImage = photo.jpegData(compressionQuality: 1.0) {
+            StorageManager.shared.save(at: dataImage) }
     }
     
     // MARK: - применение фильтра и вывод изображения во вью

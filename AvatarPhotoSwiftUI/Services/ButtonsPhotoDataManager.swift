@@ -19,7 +19,7 @@ struct ButtonsPhotoDataManager {
     static func getLowerButtonsPhoto() -> [ButtonsPhotoModel] {
       [
         ButtonsPhotoModel(type: .rotatedLeft, nameImage: "rotate.left"),
-        ButtonsPhotoModel(type: .sharePhoto, nameImage: "square.and.arrow.up"),
+        ButtonsPhotoModel(type: .savePhoto, nameImage: "square.and.arrow.down"),
         ButtonsPhotoModel(type: .rotatedRigth, nameImage: "rotate.right")
        
       ]
