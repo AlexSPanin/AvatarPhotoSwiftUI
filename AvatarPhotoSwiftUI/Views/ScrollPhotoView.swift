@@ -14,19 +14,13 @@ struct ScrollPhotoView: View {
     
     var body: some View {
         ZStack {
-            Image(uiImage: viewModel.photo)
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 200, height: 300, alignment: .center)
-                .clipShape(RoundedRectangle(cornerRadius: 10))
-                .overlay {
-                    RoundedRectangle(cornerRadius: 10).stroke(Color.customRed, lineWidth: 3)
-                }
-                .shadow(color: .sh_darkGrey, radius: 0, x: 0, y: 1)
+            ImageScrollView(imageView: UIImageView(image:  viewModel.photo))
+            .frame(width: 200, height: 300)
+            .cornerRadius(10)
+            .sheet(isPresented: $viewModel.isImagePickerDisplay, onDismiss: chagePhoto) {
+                ImagePickerView(selectedImage: self.$selectedImage, sourceType: viewModel.sourceType)
         }
-        .padding(2)
-        .sheet(isPresented: $viewModel.isImagePickerDisplay, onDismiss: chagePhoto) {
-            ImagePickerView(selectedImage: self.$selectedImage, sourceType: viewModel.sourceType)
+        
         }
     }
 }
@@ -34,15 +28,15 @@ struct ScrollPhotoView: View {
 extension ScrollPhotoView {
     private func chagePhoto() {
         guard let image = selectedImage else { return }
-        viewModel.isChange.toggle()
-        viewModel.photo = image
+            viewModel.isChange.toggle()
+            viewModel.photo = image
     }
 }
 
 
 
-struct ScrollPhotoView_Previews: PreviewProvider {
-    static var previews: some View {
-        ScrollPhotoView(viewModel: AvatarPhotoViewModel())
-    }
-}
+//struct ScrollPhotoView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ScrollPhotoView(viewModel: AvatarPhotoViewModel())
+//    }
+//}

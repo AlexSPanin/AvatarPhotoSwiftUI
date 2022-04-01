@@ -21,7 +21,6 @@ struct ButtonsPhotoDataManager {
         ButtonsPhotoModel(type: .rotatedLeft, nameImage: "rotate.left"),
         ButtonsPhotoModel(type: .savePhoto, nameImage: "square.and.arrow.down"),
         ButtonsPhotoModel(type: .rotatedRigth, nameImage: "rotate.right")
-       
       ]
     }
     private init() {}

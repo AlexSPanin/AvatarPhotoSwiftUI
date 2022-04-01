@@ -12,12 +12,18 @@ class AvatarPhotoViewModel: ObservableObject {
     let lowerButtons = ButtonsPhotoDataManager.getLowerButtonsPhoto()
     
     var typePressButton: ButtonsPhoto = .getLibrary
-    { didSet { pressedButtonsPhoto() } }
+    {
+        didSet
+        { pressedButtonsPhoto() }
+    }
     
     var isChange: Bool = false
     
-    @Published var photo: UIImage = UIImage(systemName: "person.fill.questionmark") ?? UIImage()
-    { didSet { if isChange { imageFilter() } } }
+    @Published var photo: UIImage = UIImage(systemName: "person.fill") ?? UIImage()
+    {
+        didSet
+        { if isChange { imageFilter() } }
+    }
     
     @Published var sourceType: UIImagePickerController.SourceType = .photoLibrary
     @Published var isImagePickerDisplay: Bool = false

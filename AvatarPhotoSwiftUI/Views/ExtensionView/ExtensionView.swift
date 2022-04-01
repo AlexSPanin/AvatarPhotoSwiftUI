@@ -7,6 +7,11 @@
 
 import SwiftUI
 
+struct Screen {
+    static let width = UIScreen.main.bounds.width
+    static let height = UIScreen.main.bounds.height
+}
+
 extension Color {
     
     static let customRed = Color(#colorLiteral(red: 0.8980392157, green: 0.2235294118, blue: 0.2078431373, alpha: 1))
@@ -48,5 +53,28 @@ extension UIImage {
             return rotatedImage ?? self
         }
         return self
+    }
+}
+
+
+struct OnTap: ViewModifier {
+    let response: (CGPoint) -> Void
+    
+    @State private var location: CGPoint = .zero
+    func body(content: Content) -> some View {
+        content
+            .onTapGesture(count: 2) {
+                response(location)
+            }
+            .simultaneousGesture(
+                DragGesture(minimumDistance: 0)
+                    .onEnded { location = $0.location }
+            )
+    }
+}
+
+extension View {
+    func onTapGesture(_ handler: @escaping (CGPoint) -> Void) -> some View {
+        self.modifier(OnTap(response: handler))
     }
 }

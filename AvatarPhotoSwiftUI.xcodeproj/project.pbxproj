@@ -21,6 +21,7 @@
 		E22D38E827F5B94D009EB3EF /* ScrollPhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22D38E727F5B94D009EB3EF /* ScrollPhotoView.swift */; };
 		E22D38EA27F5C5F9009EB3EF /* ImagePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22D38E927F5C5F9009EB3EF /* ImagePickerView.swift */; };
 		E22D38F127F5F456009EB3EF /* StoradgeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22D38F027F5F456009EB3EF /* StoradgeManager.swift */; };
+		E22D38F527F7148F009EB3EF /* ImageScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22D38F427F7148F009EB3EF /* ImageScrollView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +41,7 @@
 		E22D38E927F5C5F9009EB3EF /* ImagePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerView.swift; sourceTree = "<group>"; };
 		E22D38ED27F5CE82009EB3EF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		E22D38F027F5F456009EB3EF /* StoradgeManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoradgeManager.swift; sourceTree = "<group>"; };
+		E22D38F427F7148F009EB3EF /* ImageScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageScrollView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,8 +108,7 @@
 			children = (
 				E22D38E527F5B3DE009EB3EF /* AvatarPhotoView.swift */,
 				E22D38E727F5B94D009EB3EF /* ScrollPhotoView.swift */,
-				E22D38E927F5C5F9009EB3EF /* ImagePickerView.swift */,
-				E22D38DD27F5A0E5009EB3EF /* ExtensionView.swift */,
+				E22D38F327F71459009EB3EF /* ExtensionView */,
 				E22D38F227F5FFD9009EB3EF /* ButtonsView */,
 			);
 			path = Views;
@@ -137,6 +138,16 @@
 				E22D38E127F5A2A2009EB3EF /* LowerButtonsPhotoView.swift */,
 			);
 			path = ButtonsView;
+			sourceTree = "<group>";
+		};
+		E22D38F327F71459009EB3EF /* ExtensionView */ = {
+			isa = PBXGroup;
+			children = (
+				E22D38E927F5C5F9009EB3EF /* ImagePickerView.swift */,
+				E22D38DD27F5A0E5009EB3EF /* ExtensionView.swift */,
+				E22D38F427F7148F009EB3EF /* ImageScrollView.swift */,
+			);
+			path = ExtensionView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -211,6 +222,7 @@
 			files = (
 				E22D38E627F5B3DF009EB3EF /* AvatarPhotoView.swift in Sources */,
 				E22D38DE27F5A0E5009EB3EF /* ExtensionView.swift in Sources */,
+				E22D38F527F7148F009EB3EF /* ImageScrollView.swift in Sources */,
 				E22D38F127F5F456009EB3EF /* StoradgeManager.swift in Sources */,
 				E22D38CA27F59B90009EB3EF /* ContentView.swift in Sources */,
 				E22D38EA27F5C5F9009EB3EF /* ImagePickerView.swift in Sources */,
