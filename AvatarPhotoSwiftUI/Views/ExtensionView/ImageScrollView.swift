@@ -9,124 +9,70 @@ import SwiftUI
 
 struct ImageScrollView: UIViewRepresentable {
     
-    @Binding var sizeFrame: CGRect
+    @ObservedObject var viewModel: AvatarPhotoViewModel
     
-    var image: UIImage
-    var sizeScroll: CGSize
-    let imageView: UIImageView = UIImageView()
-    let scrollView: UIScrollView = {
-        let scroll = UIScrollView()
-        scroll.frame = CGRect(x: (Screen.width - 200) / 2,
-                              y: (Screen.height - 300) / 2,
-                              width: 200,
-                              height: 300)
-        scroll.isScrollEnabled = true
-        scroll.showsVerticalScrollIndicator = false
-        scroll.showsHorizontalScrollIndicator = false
-        scroll.bounces = false
-        scroll.decelerationRate = UIScrollView.DecelerationRate.normal
-        return scroll
-    }()
-   
+    let scrollView = UIScrollView()
+    let imageView = UIImageView()
+    var scrollSize: CGSize
     
     func makeUIView(context: Context) -> UIScrollView {
-        print("Make")
-        
+        scrollView.frame = CGRect(x: (Screen.width - scrollSize.width) / 2,
+                              y: (Screen.height - scrollSize.height) / 2,
+                              width: scrollSize.width,
+                              height: scrollSize.height)
+        scrollView.isScrollEnabled = true
+        scrollView.showsVerticalScrollIndicator = false
+        scrollView.showsHorizontalScrollIndicator = false
+        scrollView.bounces = false
+        scrollView.decelerationRate = UIScrollView.DecelerationRate.normal
         scrollView.delegate = context.coordinator
-        imageView.image = image
-        imageView.sizeToFit()
         scrollView.addSubview(imageView)
-        scrollView.contentSize = imageView.bounds.size
-        
-        
-        
-        scrollView.minimumZoomScale = setZoomScale(boundsSize: sizeScroll, imageSize: image.size).minScale
-        scrollView.maximumZoomScale = setZoomScale(boundsSize: sizeScroll, imageSize: image.size).maxScale
-        scrollView.zoomScale = scrollView.minimumZoomScale
-        
-        imageView.frame = positionImage(scrollSize: sizeScroll, imageFrame: imageView.frame)
-        
-        
-        
+        imageView.isUserInteractionEnabled = true
         return scrollView
     }
     
-    func updateUIView(_ uiView: UIScrollView, context: Context) {
-        print("Update")
-        imageView.removeFromSuperview()
-        imageView.image = image
-        imageView.sizeToFit()
-        uiView.addSubview(imageView)
-        uiView.contentSize = imageView.bounds.size
-        uiView.minimumZoomScale = setZoomScale(boundsSize: sizeScroll, imageSize: image.size).minScale
-        uiView.maximumZoomScale = setZoomScale(boundsSize: sizeScroll, imageSize: image.size).maxScale
-        uiView.zoomScale = uiView.minimumZoomScale
-        imageView.frame = positionImage(scrollSize: sizeScroll, imageFrame: imageView.frame)
-        sizeFrame = imageView.frame
-        
-        
-       
-        
- //       positionImage(uiView)
-// print( uiView.zoomScale, uiView.minimumZoomScale, uiView.contentSize, imageView.frame)
-        
+    func setMinimumZoom() {
+        guard let image = viewModel.photo else { return }
+        scrollView.contentSize = image.size
+        scrollView.minimumZoomScale = setZoomScale(boundsSize: scrollSize, imageSize: image.size).minScale
+        scrollView.maximumZoomScale = setZoomScale(boundsSize: scrollSize, imageSize: image.size).maxScale
+        scrollView.zoomScale = scrollView.minimumZoomScale
     }
     
-  
+    func updateUIView(_ uiView: UIScrollView, context: Context) {
+        guard let image = viewModel.photo else { return }
+        context.coordinator.scroll.imageView.image = image
+        imageView.sizeToFit()
+        setMinimumZoom()
+    }
+    
     func makeCoordinator() -> Coordinator {
-       Coordinator(scroll: self)
+        return Coordinator (scroll: self)
     }
     
     func setZoomScale(boundsSize: CGSize, imageSize: CGSize) -> (minScale: CGFloat, maxScale: CGFloat){
-        print("Set")
-        // вычисляем соотношения экранов по x и y
         let xScale = boundsSize.width / imageSize.width
         let yScale = boundsSize.height / imageSize.height
-        // определяем минимальный и максимальный зум
         let minScale = min(xScale, yScale)
         let maxScale: CGFloat = max(0.5, minScale)
-        // задаем параметры минимального и максимального зума
-//        scrollView.minimumZoomScale = minScale
-//        scrollView.maximumZoomScale = maxScale
-//        scrollView.zoomScale = minScale
-        
-// imageView.removeFromSuperview()
-        print("After Zoom")
-        print(boundsSize, imageSize, Int(xScale), Int(yScale), imageView.frame)
-        
         return (minScale, maxScale)
     }
     
     func positionImage(scrollSize: CGSize, imageFrame: CGRect ) -> CGRect {
-     print("Position")
         let boundsSize = scrollSize
-        
         var frameToCenter = imageFrame
-     
-        // если размеры высоты view при зум меньше ширины экрана то view вписывается в ширику экрана
         if frameToCenter.size.height < boundsSize.height {
             frameToCenter.origin.y = (boundsSize.height - frameToCenter.size.height) / 2
         } else {
             frameToCenter.origin.y = 0
         }
-        // если размеры ширины view при зум меньше ширины экрана то view вписывается в ширику экрана
         if frameToCenter.size.width < boundsSize.width {
             frameToCenter.origin.x = (boundsSize.width - frameToCenter.size.width) / 2
         } else {
             frameToCenter.origin.x = 0
         }
       return frameToCenter
-        // присваиваем новый frame
-  //      imageView.frame = frameToCenter
-  //    print(boundsSize, frameToCenter)
     }
-    
-    
-    
-    
-    
-    
-    
 }
 
 extension ImageScrollView {
@@ -134,22 +80,60 @@ extension ImageScrollView {
     class Coordinator: NSObject, UIScrollViewDelegate {
         
         var scroll: ImageScrollView
+        lazy var zoomingTap: UITapGestureRecognizer = {
+            let zoom = UITapGestureRecognizer(target: self, action: #selector(handleZoomingTap))
+            zoom.numberOfTapsRequired = 2
+            return zoom
+        }()
         
         init(scroll: ImageScrollView) {
             self.scroll = scroll
         }
-       
-        // Запрашивает делегата о масштабировании вида при приближении масштабирования на виде прокрутки.
+
         func viewForZooming(in scrollView: UIScrollView) -> UIView? {
-            print("ForZooming")
+            scroll.imageView.addGestureRecognizer(zoomingTap)
             return scroll.imageView
         }
-        // Сообщает делегату, что коэффициент масштабирования вида прокрутки изменился.
+        
         func scrollViewDidZoom(_ scrollView: UIScrollView) {
- //           scroll.positionImage(scrollSize: scroll.sizeScroll, imageFrame: scroll.sizeFrame)
+            print("Did Zoom")
+            scroll.imageView.frame = scroll.positionImage(scrollSize: scroll.scrollSize, imageFrame: scroll.imageView.frame)
+            let width: CGFloat = scrollView.bounds.width / scrollView.zoomScale
+            let height: CGFloat = scrollView.bounds.height / scrollView.zoomScale
+            let x = scrollView.bounds.origin.x / scrollView.zoomScale
+            let y = scrollView.bounds.origin.y / scrollView.zoomScale
+            
+            let cgRect = CGRect(x: x,
+                                y: y,
+                                width: width,
+                                height: height)
+            
+            scroll.viewModel.frameCGRect = cgRect
+        }
+        
+        @objc func handleZoomingTap(sender: UITapGestureRecognizer) {
+            let location = sender.location(in: sender.view)
+            let currectScale = scroll.scrollView.zoomScale
+            let minScale = scroll.scrollView.minimumZoomScale
+            let maxScale = scroll.scrollView.maximumZoomScale
+            
+            var zoomRect = CGRect.zero
+            
+            if (minScale == maxScale && minScale > 1) { return }
+            let toScale = maxScale
+            let finalScale = (currectScale == minScale ) ? toScale : minScale
+            
+            let bounds = scroll.scrollView.bounds
+            
+            zoomRect.size.width = bounds.size.width / finalScale
+            zoomRect.size.height = bounds.size.height / finalScale
+            
+            zoomRect.origin.x = location.x - (zoomRect.size.width / 2)
+            zoomRect.origin.y = location.y - (zoomRect.size.height / 2)
+            
+            scroll.scrollView.zoom(to: zoomRect, animated: true)
         }
     }
-    
 }
 
 

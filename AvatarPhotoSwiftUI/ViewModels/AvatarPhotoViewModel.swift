@@ -19,9 +19,9 @@ class AvatarPhotoViewModel: ObservableObject {
     
     var isChange: Bool = false
     
-    @Published var photo: UIImage = UIImage(systemName: "person.fill") ?? UIImage()
+    @Published var photo: UIImage?
     
-    @Published var sizeFrame: CGSize = CGSize.zero
+    @Published var frameCGRect: CGRect = CGRect.zero
     @Published var sourceType: UIImagePickerController.SourceType = .photoLibrary
     @Published var isImagePickerDisplay: Bool = false
     
@@ -45,15 +45,18 @@ class AvatarPhotoViewModel: ObservableObject {
         case .savePhoto:
             savePhoto()
         case .rotatedRigth:
+            guard let photo = photo else { return }
             let rotatedImage = photo.rotate(radians: .pi * 0.5)
-            photo = rotatedImage
+            self.photo = rotatedImage
         case .rotatedLeft:
+            guard let photo = photo else { return }
             let rotatedImage = photo.rotate(radians: .pi * 1.5)
-            photo = rotatedImage
+            self.photo = rotatedImage
         }
     }
     
     func savePhoto() {
+        guard let photo = photo else { return }
         if let dataImage = photo.jpegData(compressionQuality: 1.0) {
             StorageManager.shared.save(at: dataImage) }
     }
