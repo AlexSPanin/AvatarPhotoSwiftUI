@@ -31,19 +31,18 @@ struct ImageScrollView: UIViewRepresentable {
         return scrollView
     }
     
-    func setMinimumZoom() {
-        guard let image = viewModel.photo else { return }
-        scrollView.contentSize = image.size
-        scrollView.minimumZoomScale = setZoomScale(boundsSize: scrollSize, imageSize: image.size).minScale
-        scrollView.maximumZoomScale = setZoomScale(boundsSize: scrollSize, imageSize: image.size).maxScale
-        scrollView.zoomScale = scrollView.minimumZoomScale
-    }
     
     func updateUIView(_ uiView: UIScrollView, context: Context) {
         guard let image = viewModel.photo else { return }
         context.coordinator.scroll.imageView.image = image
         imageView.sizeToFit()
-        setMinimumZoom()
+        scrollView.addSubview(imageView)
+        let scale = setZoomScale(boundsSize: scrollSize, imageSize: image.size)
+  
+        scrollView.minimumZoomScale = scale.minScale
+        scrollView.maximumZoomScale = scale.maxScale
+        scrollView.zoomScale = scale.minScale
+   
     }
     
     func makeCoordinator() -> Coordinator {
@@ -54,7 +53,7 @@ struct ImageScrollView: UIViewRepresentable {
         let xScale = boundsSize.width / imageSize.width
         let yScale = boundsSize.height / imageSize.height
         let minScale = min(xScale, yScale)
-        let maxScale: CGFloat = max(0.5, minScale)
+        let maxScale: CGFloat = max(1, minScale)
         return (minScale, maxScale)
     }
     
@@ -95,13 +94,12 @@ extension ImageScrollView {
             return scroll.imageView
         }
         
-        func scrollViewDidZoom(_ scrollView: UIScrollView) {
-            print("Did Zoom")
-            scroll.imageView.frame = scroll.positionImage(scrollSize: scroll.scrollSize, imageFrame: scroll.imageView.frame)
-            let width: CGFloat = scrollView.bounds.width / scrollView.zoomScale
-            let height: CGFloat = scrollView.bounds.height / scrollView.zoomScale
-            let x = scrollView.bounds.origin.x / scrollView.zoomScale
-            let y = scrollView.bounds.origin.y / scrollView.zoomScale
+        func scrollViewDidScroll(_ scrollView: UIScrollView) {
+            let zoomScale = scrollView.zoomScale
+            let width: CGFloat = scrollView.bounds.width / zoomScale
+            let height: CGFloat = scrollView.bounds.height / zoomScale
+            let x = scrollView.bounds.origin.x / zoomScale
+            let y = scrollView.bounds.origin.y / zoomScale
             
             let cgRect = CGRect(x: x,
                                 y: y,
@@ -109,6 +107,27 @@ extension ImageScrollView {
                                 height: height)
             
             scroll.viewModel.frameCGRect = cgRect
+          
+        }
+        
+        func scrollViewDidZoom(_ scrollView: UIScrollView) {
+            let zoomScale = scrollView.zoomScale
+            let width: CGFloat = scrollView.bounds.width / zoomScale
+            let height: CGFloat = scrollView.bounds.height / zoomScale
+            let x = scrollView.bounds.origin.x / zoomScale
+            let y = scrollView.bounds.origin.y / zoomScale
+            
+            let cgRect = CGRect(x: x,
+                                y: y,
+                                width: width,
+                                height: height)
+            
+            scroll.viewModel.frameCGRect = cgRect
+            
+            print(scroll.imageView.frame, cgRect)
+            
+            scroll.imageView.frame = scroll.positionImage(scrollSize: scroll.scrollSize, imageFrame: scroll.imageView.frame)
+           
         }
         
         @objc func handleZoomingTap(sender: UITapGestureRecognizer) {

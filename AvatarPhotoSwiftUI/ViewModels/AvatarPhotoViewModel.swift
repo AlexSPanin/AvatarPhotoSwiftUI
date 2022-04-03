@@ -26,7 +26,7 @@ class AvatarPhotoViewModel: ObservableObject {
     @Published var isImagePickerDisplay: Bool = false
     
     init() {
-        fethPhoto()
+    //    fethPhoto()
     }
     
     func fethPhoto() {
@@ -56,9 +56,28 @@ class AvatarPhotoViewModel: ObservableObject {
     }
     
     func savePhoto() {
-        guard let photo = photo else { return }
+        
+        guard var photo = photo else { return }
+        let cgRect = frameCGRect
+        
+        let orientation = photo.imageOrientation
+        let scale = photo.scale
+        let cgImage = photo.cgImage
+       
+        if let cropperCGImage = cgImage?.cropping(to: cgRect) {
+            let context = CIContext(options: nil)
+            let ciImage = CIImage(cgImage: cropperCGImage)
+            if let refImage = context.createCGImage(ciImage, from: ciImage.extent) {
+                let uiImage = UIImage(cgImage: refImage, scale: scale, orientation: orientation)
+  //              let uiImage = UIImage(cgImage: cropperCGImage)
+                photo = uiImage
+            }
+        }
+        print(photo.imageOrientation.rawValue)
         if let dataImage = photo.jpegData(compressionQuality: 1.0) {
             StorageManager.shared.save(at: dataImage) }
+        self.photo = photo
+        frameCGRect = CGRect.zero
     }
     
     // MARK: - применение фильтра и вывод изображения во вью

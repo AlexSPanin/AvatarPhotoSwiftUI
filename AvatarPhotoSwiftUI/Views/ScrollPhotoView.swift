@@ -46,7 +46,7 @@ struct ScrollPhotoView: View {
 extension ScrollPhotoView {
     private func chagePhoto() {
         guard let image = selectedImage else { return }
-        viewModel.photo = viewModel.imageFilter(image)
+        viewModel.photo = image
     }
 }
 
