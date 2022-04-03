@@ -15,10 +15,8 @@ struct LowerButtonsPhotoView: View {
                 Button {
                     viewModel.typePressButton = button.type
                 } label: {
-                    
-                        Image(systemName: button.nameImage)
+                    Image(systemName: button.nameImage)
                         .foregroundColor(Color.customRed)
-                    
                 }
             }
         } .padding(2)

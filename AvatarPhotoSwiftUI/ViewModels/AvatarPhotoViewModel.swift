@@ -20,11 +20,8 @@ class AvatarPhotoViewModel: ObservableObject {
     var isChange: Bool = false
     
     @Published var photo: UIImage = UIImage(systemName: "person.fill") ?? UIImage()
-    {
-        didSet
-        { if isChange { imageFilter() } }
-    }
     
+    @Published var sizeFrame: CGSize = CGSize.zero
     @Published var sourceType: UIImagePickerController.SourceType = .photoLibrary
     @Published var isImagePickerDisplay: Bool = false
     
@@ -62,7 +59,8 @@ class AvatarPhotoViewModel: ObservableObject {
     }
     
     // MARK: - применение фильтра и вывод изображения во вью
-    func imageFilter() {
+    func imageFilter(_ photo: UIImage) -> UIImage {
+        var photo = photo
         let context = CIContext(options: nil)
         let inputImage = CIImage(image: photo)
         let currentFilter = CIFilter(name: "CIPhotoEffectMono")
@@ -70,9 +68,9 @@ class AvatarPhotoViewModel: ObservableObject {
         currentFilter?.setValue(inputImage, forKey: kCIInputImageKey) // ключ определяет определяет входное изображение
         if let output = currentFilter?.outputImage {
             if let cgImage = context.createCGImage(output, from: output.extent) {
-                isChange.toggle()
                 photo = UIImage(cgImage: cgImage)
             }
         }
+        return photo
     }
 }

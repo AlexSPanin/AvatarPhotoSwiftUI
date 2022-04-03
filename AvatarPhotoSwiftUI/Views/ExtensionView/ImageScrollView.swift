@@ -8,8 +8,12 @@
 import SwiftUI
 
 struct ImageScrollView: UIViewRepresentable {
-    var imageView: UIImageView
-
+    
+    @Binding var sizeFrame: CGRect
+    
+    var image: UIImage
+    var sizeScroll: CGSize
+    let imageView: UIImageView = UIImageView()
     let scrollView: UIScrollView = {
         let scroll = UIScrollView()
         scroll.frame = CGRect(x: (Screen.width - 200) / 2,
@@ -25,24 +29,81 @@ struct ImageScrollView: UIViewRepresentable {
     }()
    
     
-   func makeUIView(context: Context) -> UIScrollView {
+    func makeUIView(context: Context) -> UIScrollView {
+        print("Make")
+        
         scrollView.delegate = context.coordinator
-        scrollView.zoomScale = 1.0
+        imageView.image = image
+        imageView.sizeToFit()
         scrollView.addSubview(imageView)
-
+        scrollView.contentSize = imageView.bounds.size
+        
+        
+        
+        scrollView.minimumZoomScale = setZoomScale(boundsSize: sizeScroll, imageSize: image.size).minScale
+        scrollView.maximumZoomScale = setZoomScale(boundsSize: sizeScroll, imageSize: image.size).maxScale
+        scrollView.zoomScale = scrollView.minimumZoomScale
+        
+        imageView.frame = positionImage(scrollSize: sizeScroll, imageFrame: imageView.frame)
+        
+        
+        
         return scrollView
     }
     
     func updateUIView(_ uiView: UIScrollView, context: Context) {
-        
-       
+        print("Update")
+        imageView.removeFromSuperview()
+        imageView.image = image
+        imageView.sizeToFit()
         uiView.addSubview(imageView)
         uiView.contentSize = imageView.bounds.size
-
-        let boundsSize = scrollView.bounds.size
+        uiView.minimumZoomScale = setZoomScale(boundsSize: sizeScroll, imageSize: image.size).minScale
+        uiView.maximumZoomScale = setZoomScale(boundsSize: sizeScroll, imageSize: image.size).maxScale
+        uiView.zoomScale = uiView.minimumZoomScale
+        imageView.frame = positionImage(scrollSize: sizeScroll, imageFrame: imageView.frame)
+        sizeFrame = imageView.frame
         
-        var frameToCenter = imageView.frame
-
+        
+       
+        
+ //       positionImage(uiView)
+// print( uiView.zoomScale, uiView.minimumZoomScale, uiView.contentSize, imageView.frame)
+        
+    }
+    
+  
+    func makeCoordinator() -> Coordinator {
+       Coordinator(scroll: self)
+    }
+    
+    func setZoomScale(boundsSize: CGSize, imageSize: CGSize) -> (minScale: CGFloat, maxScale: CGFloat){
+        print("Set")
+        // вычисляем соотношения экранов по x и y
+        let xScale = boundsSize.width / imageSize.width
+        let yScale = boundsSize.height / imageSize.height
+        // определяем минимальный и максимальный зум
+        let minScale = min(xScale, yScale)
+        let maxScale: CGFloat = max(0.5, minScale)
+        // задаем параметры минимального и максимального зума
+//        scrollView.minimumZoomScale = minScale
+//        scrollView.maximumZoomScale = maxScale
+//        scrollView.zoomScale = minScale
+        
+// imageView.removeFromSuperview()
+        print("After Zoom")
+        print(boundsSize, imageSize, Int(xScale), Int(yScale), imageView.frame)
+        
+        return (minScale, maxScale)
+    }
+    
+    func positionImage(scrollSize: CGSize, imageFrame: CGRect ) -> CGRect {
+     print("Position")
+        let boundsSize = scrollSize
+        
+        var frameToCenter = imageFrame
+     
+        // если размеры высоты view при зум меньше ширины экрана то view вписывается в ширику экрана
         if frameToCenter.size.height < boundsSize.height {
             frameToCenter.origin.y = (boundsSize.height - frameToCenter.size.height) / 2
         } else {
@@ -54,33 +115,39 @@ struct ImageScrollView: UIViewRepresentable {
         } else {
             frameToCenter.origin.x = 0
         }
-        
-       
-       
+      return frameToCenter
         // присваиваем новый frame
-        imageView.frame = frameToCenter
-        print(boundsSize, uiView.contentSize, imageView.frame)
-        
+  //      imageView.frame = frameToCenter
+  //    print(boundsSize, frameToCenter)
     }
     
-  
-    func makeCoordinator() -> Coordinator {
-        print("Coordinator")
-        return Coordinator(imageView: imageView)
-    }
+    
+    
+    
+    
+    
+    
 }
 
 extension ImageScrollView {
     
     class Coordinator: NSObject, UIScrollViewDelegate {
         
-        var imageView: UIImageView
+        var scroll: ImageScrollView
         
-        init(imageView: UIImageView) {
-            self.imageView = imageView
+        init(scroll: ImageScrollView) {
+            self.scroll = scroll
         }
-        
-        
+       
+        // Запрашивает делегата о масштабировании вида при приближении масштабирования на виде прокрутки.
+        func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+            print("ForZooming")
+            return scroll.imageView
+        }
+        // Сообщает делегату, что коэффициент масштабирования вида прокрутки изменился.
+        func scrollViewDidZoom(_ scrollView: UIScrollView) {
+ //           scroll.positionImage(scrollSize: scroll.sizeScroll, imageFrame: scroll.sizeFrame)
+        }
     }
     
 }
