@@ -17,6 +17,10 @@ struct ImagePickerView: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> UIImagePickerController {
         let imagePicker = UIImagePickerController()
         imagePicker.sourceType = self.sourceType
+        if self.sourceType == .camera {
+            imagePicker.cameraDevice = .front
+            imagePicker.allowsEditing = true
+        } else { imagePicker.allowsEditing = false }
         imagePicker.delegate = context.coordinator // confirming the delegate
         return imagePicker
     }
@@ -41,8 +45,13 @@ extension ImagePickerView {
         }
         
         func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+            
+            if let selectedImage = info[.editedImage] as? UIImage {
+                self.picker.selectedImage = selectedImage
+            } else {
             guard let selectedImage = info[.originalImage] as? UIImage else { return }
-            self.picker.selectedImage = selectedImage
+                self.picker.selectedImage = selectedImage
+            }
             self.picker.isPresented.wrappedValue.dismiss()
         }
     }
