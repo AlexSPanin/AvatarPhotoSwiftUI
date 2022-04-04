@@ -17,7 +17,7 @@ class AvatarPhotoViewModel: ObservableObject {
         { pressedButtonsPhoto() }
     }
     
-    var isChange: Bool = false
+    @Published var isChange: Bool = false
     
     @Published var photo: UIImage?
     
@@ -26,7 +26,7 @@ class AvatarPhotoViewModel: ObservableObject {
     @Published var isImagePickerDisplay: Bool = false
     
     init() {
-    //    fethPhoto()
+        fethPhoto()
     }
     
     func fethPhoto() {
@@ -44,14 +44,17 @@ class AvatarPhotoViewModel: ObservableObject {
             self.isImagePickerDisplay.toggle()
         case .savePhoto:
             savePhoto()
+            
         case .rotatedRigth:
             guard let photo = photo else { return }
             let rotatedImage = photo.rotate(radians: .pi * 0.5)
             self.photo = rotatedImage
+            self.isChange = true
         case .rotatedLeft:
             guard let photo = photo else { return }
             let rotatedImage = photo.rotate(radians: .pi * 1.5)
             self.photo = rotatedImage
+            self.isChange = true
         }
     }
     
@@ -69,15 +72,14 @@ class AvatarPhotoViewModel: ObservableObject {
             let ciImage = CIImage(cgImage: cropperCGImage)
             if let refImage = context.createCGImage(ciImage, from: ciImage.extent) {
                 let uiImage = UIImage(cgImage: refImage, scale: scale, orientation: orientation)
-  //              let uiImage = UIImage(cgImage: cropperCGImage)
                 photo = uiImage
             }
         }
-        print(photo.imageOrientation.rawValue)
         if let dataImage = photo.jpegData(compressionQuality: 1.0) {
             StorageManager.shared.save(at: dataImage) }
         self.photo = photo
-        frameCGRect = CGRect.zero
+        self.isChange = true
+        self.frameCGRect = CGRect(origin: CGPoint.zero, size: photo.size)
     }
     
     // MARK: - применение фильтра и вывод изображения во вью

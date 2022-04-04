@@ -42,11 +42,12 @@ struct ScrollPhotoView: View {
     }
 }
 
-
 extension ScrollPhotoView {
     private func chagePhoto() {
         guard let image = selectedImage else { return }
-        viewModel.photo = image
+        viewModel.photo = viewModel.imageFilter(image)
+        viewModel.isChange = true
+        viewModel.frameCGRect = CGRect(origin: CGPoint.zero, size: image.size)
     }
 }
 
